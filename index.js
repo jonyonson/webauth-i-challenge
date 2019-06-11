@@ -3,9 +3,11 @@ const helmet = require('helmet');
 const cors = require('cors');
 const session = require('express-session');
 const KnexSessionStore = require('connect-session-knex')(session);
+// const restricted = require('./auth/restricted');
 
 const usersRouter = require('./users/users-router');
 const authRouter = require('./auth/auth-router.js');
+const restrictedRouter = require('./auth/restricted-router');
 
 const server = express();
 
@@ -40,6 +42,7 @@ server.get('/', (req, res) => {
 
 server.use('/api/users', usersRouter);
 server.use('/api/auth', authRouter);
+server.use('/api/restricted', require('./auth/restricted'), restrictedRouter);
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`\n** Running on port ${PORT} **\n`));

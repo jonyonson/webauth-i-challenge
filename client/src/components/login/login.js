@@ -1,5 +1,6 @@
 import React from 'react';
 import './login.scss';
+import axios from 'axios';
 
 class Login extends React.Component {
   state = {
@@ -11,6 +12,15 @@ class Login extends React.Component {
 
   login = e => {
     e.preventDefault();
+
+    axios
+      .post('http://localhost:5000/api/auth/login', {
+        ...this.state.credentials,
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(error => console.log(error));
   };
 
   handleChange = e => {
@@ -24,8 +34,9 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.login}>
+      <div className="auth">
+        <h1 className="auth__title">Login</h1>
+        <form className="auth__form" onSubmit={this.login}>
           <input
             type="text"
             name="username"
